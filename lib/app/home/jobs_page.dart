@@ -4,6 +4,8 @@ import 'package:track_time/common_widgets/platform_alert_dialog.dart';
 import 'package:track_time/services/auth.dart';
 import 'package:track_time/services/database.dart';
 
+import 'models/job.dart';
+
 class JobsPage extends StatelessWidget {
   Future<void> _signOut(BuildContext context) async {
     try {
@@ -28,10 +30,7 @@ class JobsPage extends StatelessWidget {
 
   Future<void> _createJob(BuildContext context) async {
     final database = Provider.of<Database>(context, listen: false);
-    await database.createJob({
-      'name': 'Blogging',
-      'retePerHour': 9,
-    });
+    await database.createJob(Job(name: 'Blogging', ratePerHour: 10));
   }
 
   @override
