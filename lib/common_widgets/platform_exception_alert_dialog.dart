@@ -17,7 +17,8 @@ class PlatformExceptionAlertDialog extends PlatformAlertDialog {
   }
 
   static Map<String, String> _errors = {
-    'ERROR_INVALID_EMAIL': 'The email address is badly formated.',
+    'Error performing setData': 'Missing or insufficient permissions.',
+    'ERROR_INVALID_EMAIL': 'The email address is badly formatted.',
     'ERROR_WRONG_PASSWORD': 'Password is wrong.',
     'ERROR_USER_NOT_FOUND':
         'There is no user corresponding to the given email address, or user has been deleted.',
