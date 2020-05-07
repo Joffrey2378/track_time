@@ -9,7 +9,7 @@ class Job {
   Map<String, dynamic> toMap() {
     return {
       'name': '$name',
-      'ratePerHour': '$ratePerHour',
+      'ratePerHour': ratePerHour,
     };
   }
 }
