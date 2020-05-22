@@ -8,13 +8,18 @@ import 'package:track_time/services/database.dart';
 
 class EditJobPage extends StatefulWidget {
   final Database database;
+  final Job job;
 
-  const EditJobPage({Key key, @required this.database}) : super(key: key);
+  const EditJobPage({Key key, @required this.database, this.job})
+      : super(key: key);
 
-  static Future<void> show(BuildContext context) async {
+  static Future<void> show(BuildContext context, {Job job}) async {
     final database = Provider.of<Database>(context, listen: false);
     await Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => EditJobPage(database: database),
+      builder: (context) => EditJobPage(
+        database: database,
+        job: job,
+      ),
       fullscreenDialog: true,
     ));
   }
@@ -44,6 +49,9 @@ class _EditJobPageState extends State<EditJobPage> {
       try {
         final jobs = await widget.database.jobsStream().first;
         final allNames = jobs.map((job) => job.name).toList();
+        if (widget.job != null) {
+          allNames.remove(widget.job.name);
+        }
         if (allNames.contains(_name)) {
           PlatformAlertDialog(
             title: 'Name already used',
@@ -51,8 +59,9 @@ class _EditJobPageState extends State<EditJobPage> {
             defaultActionText: 'OK',
           ).show(context);
         } else {
-          final job = Job(name: _name, ratePerHour: _ratePerHour);
-          await widget.database.createJob(job);
+          final id = widget.job?.id ?? documentIdFromCurrentDate();
+          final job = Job(id: id, name: _name, ratePerHour: _ratePerHour);
+          await widget.database.setJob(job);
           Navigator.of(context).pop();
         }
       } on PlatformException catch (e) {
@@ -65,12 +74,21 @@ class _EditJobPageState extends State<EditJobPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.job != null) {
+      _name = widget.job.name;
+      _ratePerHour = widget.job.ratePerHour;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         elevation: 2.0,
-        title: Text('Add Job'),
+        title: Text(widget.job == null ? 'Add Job' : 'Edit Job'),
         actions: <Widget>[
           FlatButton(
             onPressed: _submit,
@@ -111,11 +129,13 @@ class _EditJobPageState extends State<EditJobPage> {
     return [
       TextFormField(
         decoration: InputDecoration(labelText: 'Job Name'),
+        initialValue: _name,
         onSaved: (value) => _name = value,
         validator: (value) => value.isNotEmpty ? null : 'Name can\'t be empty',
       ),
       TextFormField(
         decoration: InputDecoration(labelText: 'Rate Per Hour'),
+        initialValue: _ratePerHour != null ? '$_ratePerHour' : null,
         keyboardType: TextInputType.numberWithOptions(
           decimal: false,
           signed: false,
