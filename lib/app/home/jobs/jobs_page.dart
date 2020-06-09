@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:track_time/app/home/job_entries/job_entries_page.dart';
 import 'package:track_time/app/home/jobs/edit_job_page.dart';
 import 'package:track_time/app/home/jobs/job_list_tile.dart';
 import 'package:track_time/app/home/jobs/list_item_builder.dart';
@@ -49,7 +50,7 @@ class JobsPage extends StatelessWidget {
             ),
             child: JobListTile(
               job: job,
-              onTap: () => EditJobPage.show(context, job: job),
+              onTap: () => JobEntriesPage.show(context, job),
             ),
           ),
         );
@@ -92,6 +93,7 @@ class JobsPage extends StatelessWidget {
         child: Icon(Icons.add),
         onPressed: () => EditJobPage.show(
           context,
+          database: Provider.of<Database>(context, listen: false),
         ),
       ),
     );
