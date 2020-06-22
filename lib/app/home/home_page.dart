@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:track_time/app/home/account/account_page.dart';
 import 'package:track_time/app/home/cupertino_home_scaffold.dart';
 import 'package:track_time/app/home/tab_item.dart';
 
@@ -12,24 +13,39 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TabItem _currentTab = TabItem.jobs;
 
+  final Map<TabItem, GlobalKey<NavigatorState>> navigatorKeys = {
+    TabItem.jobs: GlobalKey<NavigatorState>(),
+    TabItem.entries: GlobalKey<NavigatorState>(),
+    TabItem.account: GlobalKey<NavigatorState>(),
+  };
+
   Map<TabItem, WidgetBuilder> get widgetBuilders {
     return {
       TabItem.jobs: (_) => JobsPage(),
       TabItem.entries: (_) => Container(color: Colors.blue),
-      TabItem.account: (_) => Container(color: Colors.amberAccent),
+      TabItem.account: (_) => AccountPage(),
     };
   }
 
   void _select(TabItem tabItem) {
-    setState(() => _currentTab = tabItem);
+    if (tabItem == _currentTab) {
+      navigatorKeys[tabItem].currentState.popUntil((route) => route.isFirst);
+    } else {
+      setState(() => _currentTab = tabItem);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoHomeScaffold(
-      currentTab: _currentTab,
-      onSelectTab: _select,
-      widgetBuilders: widgetBuilders,
+    return WillPopScope(
+      onWillPop: () async =>
+          !await navigatorKeys[_currentTab].currentState.maybePop(),
+      child: CupertinoHomeScaffold(
+        currentTab: _currentTab,
+        onSelectTab: _select,
+        widgetBuilders: widgetBuilders,
+        navigatorKeys: navigatorKeys,
+      ),
     );
   }
 }

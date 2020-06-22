@@ -17,7 +17,7 @@ class EditJobPage extends StatefulWidget {
     Database database,
     Job job,
   }) async {
-    await Navigator.of(context).push(MaterialPageRoute(
+    await Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
       builder: (context) => EditJobPage(
         database: database,
         job: job,
@@ -89,13 +89,14 @@ class _EditJobPageState extends State<EditJobPage> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
+        centerTitle: true,
         elevation: 2.0,
-        title: Text(widget.job == null ? 'Add Job' : 'Edit Job'),
+        title: Text(widget.job == null ? 'New Job' : 'Edit Job'),
         actions: <Widget>[
           FlatButton(
             onPressed: _submit,
             child: Text('Save',
-                style: TextStyle(fontSize: 18.0, color: Colors.white)),
+                style: TextStyle(fontSize: 18.0, color: Colors.black)),
           )
         ],
       ),

@@ -22,7 +22,7 @@ class JobEntriesPage extends StatelessWidget {
   static Future<void> show(BuildContext context, Job job) async {
     final Database database = Provider.of<Database>(context, listen: false);
     await Navigator.of(context).push(
-      MaterialPageRoute(
+      CupertinoPageRoute(
         fullscreenDialog: false,
         builder: (context) => JobEntriesPage(database: database, job: job),
       ),
@@ -49,13 +49,19 @@ class JobEntriesPage extends StatelessWidget {
           final jobName = job?.name ?? '';
           return Scaffold(
             appBar: AppBar(
+              centerTitle: true,
               elevation: 2.0,
               title: Text(jobName),
               actions: <Widget>[
-                FlatButton(
-                  child: Text(
-                    'Edit',
-                    style: TextStyle(fontSize: 18.0, color: Colors.white),
+                IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () => EntryPage.show(
+                      context: context, database: database, job: job),
+                ),
+                IconButton(
+                  icon: Icon(
+                    Icons.edit,
+                    color: Colors.black,
                   ),
                   onPressed: () => EditJobPage.show(
                     context,
@@ -66,11 +72,6 @@ class JobEntriesPage extends StatelessWidget {
               ],
             ),
             body: _buildContent(context, job),
-            floatingActionButton: FloatingActionButton(
-              child: Icon(Icons.add),
-              onPressed: () => EntryPage.show(
-                  context: context, database: database, job: job),
-            ),
           );
         });
   }
