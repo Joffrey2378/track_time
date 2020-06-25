@@ -82,6 +82,7 @@ class _EntryPageState extends State<EntryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         elevation: 2.0,
         title: Text(widget.job.name),
         actions: <Widget>[

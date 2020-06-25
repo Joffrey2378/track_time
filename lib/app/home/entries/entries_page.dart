@@ -18,6 +18,7 @@ class EntriesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('Entries'),
         elevation: 2.0,
       ),
