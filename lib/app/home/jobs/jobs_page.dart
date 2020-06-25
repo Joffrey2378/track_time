@@ -14,7 +14,7 @@ import '../models/job.dart';
 
 class JobsPage extends StatelessWidget {
   Widget _buildContents(BuildContext context) {
-    final database = Provider.of<Database>(context);
+    final database = Provider.of<Database>(context, listen: false);
     return StreamBuilder<List<Job>>(
       stream: database.jobsStream(),
       builder: (context, snapshot) {
