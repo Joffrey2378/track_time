@@ -17,8 +17,13 @@ abstract class AuthBase {
 
 class User {
   final String uid;
+  final String photoUrl;
+  final String displayName;
 
-  User({@required this.uid});
+  User(
+      {@required this.photoUrl,
+      @required this.displayName,
+      @required this.uid});
 }
 
 class Auth implements AuthBase {
@@ -28,7 +33,11 @@ class Auth implements AuthBase {
     if (user == null) {
       return null;
     }
-    return User(uid: user.uid);
+    return User(
+      uid: user.uid,
+      photoUrl: user.photoUrl,
+      displayName: user.displayName,
+    );
   }
 
   @override

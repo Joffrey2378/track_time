@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:track_time/common_widgets/avatar.dart';
 import 'package:track_time/common_widgets/platform_alert_dialog.dart';
 import 'package:track_time/services/auth.dart';
 
@@ -27,6 +28,7 @@ class AccountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -43,7 +45,29 @@ class AccountPage extends StatelessWidget {
             ),
           )
         ],
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(130.0),
+          child: _buildUserInfo(user),
+        ),
       ),
+    );
+  }
+
+  Widget _buildUserInfo(User user) {
+    return Column(
+      children: <Widget>[
+        Avatar(
+          photoUrl: user.photoUrl,
+          radius: 50.0,
+        ),
+        SizedBox(height: 8.0),
+        if (user.displayName != null)
+          Text(
+            user.displayName,
+            style: TextStyle(color: Colors.black),
+          ),
+        SizedBox(height: 8.0),
+      ],
     );
   }
 }

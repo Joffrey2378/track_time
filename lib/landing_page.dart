@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:track_time/app/home/jobs/jobs_page.dart';
 import 'package:track_time/app/sign_in/sign_in_page.dart';
 import 'package:track_time/services/database.dart';
 
@@ -19,9 +18,12 @@ class LandingPage extends StatelessWidget {
           if (user == null) {
             return SignInPage.create(context);
           }
-          return Provider<Database>(
-            create: (_) => FirestoreDatabase(uid: user.uid),
-            child: HomePage(),
+          return Provider<User>.value(
+            value: user,
+            child: Provider<Database>(
+              create: (_) => FirestoreDatabase(uid: user.uid),
+              child: HomePage(),
+            ),
           );
         } else {
           return Scaffold(
