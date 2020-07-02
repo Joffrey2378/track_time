@@ -20,10 +20,7 @@ class User {
   final String photoUrl;
   final String displayName;
 
-  User(
-      {@required this.photoUrl,
-      @required this.displayName,
-      @required this.uid});
+  User({this.photoUrl, this.displayName, @required this.uid});
 }
 
 class Auth implements AuthBase {
