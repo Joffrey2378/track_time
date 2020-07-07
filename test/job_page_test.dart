@@ -9,7 +9,7 @@ import 'package:track_time/app/home/jobs/jobs_page.dart';
 import 'package:track_time/app/home/models/job.dart';
 import 'package:track_time/services/database.dart';
 
-class MockDatabase extends Mock implements Database {}
+import 'mocks.dart';
 
 void main() {
   MockDatabase mockDatabase;

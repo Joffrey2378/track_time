@@ -9,7 +9,7 @@ import 'package:track_time/app/sign_in/sign_in_page.dart';
 import 'package:track_time/landing_page.dart';
 import 'package:track_time/services/auth.dart';
 
-import 'email_sign_in_form_statefull_test.dart';
+import 'mocks.dart';
 
 void main() {
   MockAuth mockAuth;

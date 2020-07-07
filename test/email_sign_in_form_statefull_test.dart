@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:track_time/app/sign_in/email_sign_in_form_stateful.dart';
 import 'package:track_time/services/auth.dart';
 
-class MockAuth extends Mock implements AuthBase {}
+import 'mocks.dart';
 
 void main() {
   MockAuth mockAuth;
