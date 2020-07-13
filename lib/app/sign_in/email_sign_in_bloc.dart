@@ -12,7 +12,7 @@ class EmailSignInBloc {
   final _modelSubject =
       BehaviorSubject<EmailSignInModel>.seeded(EmailSignInModel());
   Stream<EmailSignInModel> get modelStream => _modelSubject.stream;
-  EmailSignInModel _model = EmailSignInModel();
+  EmailSignInModel get _model => _modelSubject.value;
 
   void dispose() => _modelSubject.close();
 
